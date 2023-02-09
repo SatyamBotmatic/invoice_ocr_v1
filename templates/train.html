@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <title>Upload Image</title>
+     <style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f2f2f2;
+  }
+
+  h1 {
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  h2 {
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  h3 {
+    text-align: left;
+    margin: 20px 0;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px #ccc;
+    margin: 20px;
+  }
+
+  input[type=text], input[type=file], input[type=submit] {
+    width: 60%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 10px #ccc;
+  }
+
+  input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+  }
+
+  #preview {
+    margin: 20px 0;
+  }
+
+  #dynamicCheck {
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  #newElementId1, #newElementId2 {
+    display: none;
+    flex-direction: row;
+    align-items: center;
+    margin: 20px 0;
+  }
+
+  #newInputBox1, #newInputBox2 {
+    width: 60%;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0 0 10px #ccc;
+  }
+  .image-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50%;
+  height: 100vh;
+  overflow: auto;
+}
+
+.image {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+
+
+</style>
+
+ </head>
+
+   <h3> <a href=upload >Extract</a></h3>
+
+
+
+
+ <body>
+
+
+   {% if msg %}
+   <h1>{{ msg }}</h1>
+   {% endif %}
+
+<h1></h1>
+   {% if img_src %}
+     <img src="{{ img_src }}">
+   {% endif %}
+
+
+
+<hr>
+   <h2>Train your Invoice</h2>
+
+   <form method=post enctype=multipart/form-data>
+    <div class="image-container">
+     <p><input type=file name=file id="fileInput" onchange="previewImage()">
+         <img class="image" id="preview" src="" />
+     </p>
+    </div>
+       <h3>Provide Anchor</h3>
+        Invoice Number Anchor: <input type=text name="regex1" required>
+        Vendor Name Anchor: <input type=text name="regex2" required>
+        Invoice Date Anchor: <input type=text name="regex3"required>
+        Invoice Bill Anchor: <input type=text name="regex4"required>
+        Template Name: <input type=text name="templatename" required>
+<br>
+       <br>
+        <hr>
+
+
+
+
+       <div id="dynamicCheck">
+   <input type="button" value="New Anchor (Optional)" onclick="createNewElement();"/>
+      </div>
+
+       <div style="float: left; margin: 40px ;" id="newElementId1">Anchor Name:</div>
+       <div style="float: left; margin: 40px ;" id="newElementId2">Anchor</div>
+
+
+       <script type="text/JavaScript">
+function createNewElement() {
+    // First create a DIV element.
+    document.getElementById("newElementId1").style.display = "flex";
+    document.getElementById("newElementId2").style.display = "flex";
+	var txtNewInputBox1 = document.createElement('div')
+	var txtNewInputBox2= document.createElement('div')
+
+
+    // Then add the content (a new input box) of the element.
+	txtNewInputBox1.innerHTML = "<input type='text' id='newInputBox1' name='regex5[]'>";
+	txtNewInputBox2.innerHTML = "<input type='text' id='newInputBox2' name='regex6[]'>";
+
+
+    // Finally put it where it is supposed to appear.
+	document.getElementById("newElementId1").appendChild(txtNewInputBox1);
+	document.getElementById("newElementId2").appendChild(txtNewInputBox2);
+
+}
+</script>
+
+
+         <br>
+         <br>
+         <br>
+        <input type=submit value=Upload>
+
+   </form>
+
+ </body>
+
+<script>
+function previewImage() {
+  var preview = document.getElementById('preview');
+  var file    = document.getElementById('fileInput').files[0];
+  var reader  = new FileReader();
+  reader.onloadend = function () {
+    preview.src = reader.result;
+  }
+  if (file) {
+    reader.readAsDataURL(file);
+  } else {
+    preview.src = "";
+  }
+}
+</script>
+
+
+
+</html>
